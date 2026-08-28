@@ -184,6 +184,32 @@
     }
   }
 
+  @keyframes deslizar-desde-izq {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes deslizar-desde-der {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .animar-drawer-izq {
+    animation: deslizar-desde-izq 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .animar-drawer-der {
+    animation: deslizar-desde-der 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
   @keyframes subir-hoja {
     from {
       opacity: 0;
@@ -277,7 +303,9 @@
     .animar-hoja,
     .animar-sello,
     .animar-fundido,
-    .anillo-pulso {
+    .anillo-pulso,
+    .animar-drawer-izq,
+    .animar-drawer-der {
       animation: none !important;
     }
   }

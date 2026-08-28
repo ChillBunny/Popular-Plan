@@ -167,89 +167,157 @@ function NotaDePantalla({ nota }: { nota: NotaPantalla }) {
   )
 }
 
+/* ------------------------------------------------------------------ */
+/* Drawer lateral: panel deslizante con backdrop                       */
+/* ------------------------------------------------------------------ */
+
+type DrawerLado = 'izquierdo' | 'derecho'
+
+function Drawer({
+  abierto,
+  lado,
+  onCerrar,
+  titulo,
+  children,
+}: {
+  abierto: boolean
+  lado: DrawerLado
+  onCerrar: () => void
+  titulo: string
+  children: ReactNode
+}) {
+  if (!abierto) return null
+
+  const esIzquierdo = lado === 'izquierdo'
+  const posicion = esIzquierdo ? 'left-0' : 'right-0'
+  const slide = esIzquierdo ? 'animar-drawer-izq' : 'animar-drawer-der'
+
+  return (
+    <div className="animar-fundido fixed inset-0 z-50 flex">
+      {/* Backdrop */}
+      <button
+        type="button"
+        onClick={onCerrar}
+        aria-label="Cerrar panel"
+        className="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
+      />
+      {/* Panel */}
+      <div
+        className={`${slide} ${posicion} absolute top-0 bottom-0 flex w-[360px] max-w-[85vw] flex-col border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-900 ${
+          esIzquierdo ? 'border-r' : 'border-l'
+        }`}
+      >
+        <div className="flex h-12 shrink-0 items-center justify-between border-b border-slate-200 px-4 dark:border-slate-800">
+          <h2 className="font-display text-[15px] font-extrabold text-slate-900 dark:text-slate-50">
+            {titulo}
+          </h2>
+          <button
+            type="button"
+            onClick={onCerrar}
+            aria-label="Cerrar"
+            className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800"
+          >
+            <Icono nombre="cerrar" tam={18} grosor={2} />
+          </button>
+        </div>
+        <div className="flex-1 overflow-y-auto px-4 py-5">
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /**
- * Marco de presentación. En escritorio rodea al teléfono con el argumento
- * del proyecto a la izquierda y la narración de la pantalla a la derecha; en
- * móvil se reduce a una barra fina y una vista de información, para que la
- * app ocupe la pantalla completa.
+ * Marco de presentación. En todas las pantallas, el teléfono está centrado
+ * y los paneles de contexto (argumento del proyecto + narración/recorrido)
+ * se abren bajo demanda desde botones discretos en la barra superior.
+ *
+ * En móvil la barra se simplifica; en escritorio los botones se mantienen
+ * compactos para no competir con la app.
  */
 function Escenario({ nota, paso, onPaso, onReiniciar, children }: EscenarioProps) {
+  const [panelIzq, setPanelIzq] = useState(false)
+  const [panelDer, setPanelDer] = useState(false)
   const [info, setInfo] = useState(false)
+
+  const botonClase =
+    'flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition-colors hover:border-popular-300 hover:text-popular-700 dark:border-slate-700 dark:text-slate-400 dark:hover:border-popular-500 dark:hover:text-popular-200'
 
   return (
     <div className="fondo-escenario min-h-screen bg-slate-50 dark:bg-slate-950">
-      {/* Barra fina de móvil */}
-      <div className="flex h-11 items-center justify-between gap-2 border-b border-slate-200 bg-white px-3 lg:hidden dark:border-slate-800 dark:bg-slate-900">
+      {/* Barra superior: marca + 3 botones */}
+      <div className="flex h-11 items-center justify-between gap-2 border-b border-slate-200/80 bg-white/80 px-3 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/80">
         <Marca />
         <div className="flex items-center gap-1.5">
           <button
             type="button"
-            onClick={onReiniciar}
-            aria-label="Reiniciar la demostración"
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition-colors hover:text-popular-700 dark:border-slate-700 dark:text-slate-400"
+            onClick={() => {
+              if (window.innerWidth < 768) setInfo(true)
+              else setPanelIzq(true)
+            }}
+            aria-label="Sobre el proyecto"
+            title="Sobre el proyecto"
+            className={botonClase}
           >
-            <Icono nombre="reiniciar" tam={15} grosor={2} />
+            <Icono nombre="info" tam={15} grosor={2} />
           </button>
           <button
             type="button"
-            onClick={() => setInfo(true)}
-            className="flex h-8 items-center gap-1.5 rounded-lg border border-slate-200 px-2.5 text-[11.5px] font-semibold text-slate-600 transition-colors hover:text-popular-700 dark:border-slate-700 dark:text-slate-300"
+            onClick={() => setPanelDer(true)}
+            aria-label="Recorrido guiado"
+            title="Recorrido guiado"
+            className={botonClase}
           >
-            <Icono nombre="info" tam={14} grosor={2} />
-            Proyecto
+            <Icono nombre="crecer" tam={15} grosor={2} />
           </button>
           <BotonTema />
         </div>
       </div>
 
-      <div className="mx-auto flex w-full max-w-[1440px] flex-col sm:items-center sm:py-6 lg:flex-row lg:justify-center lg:gap-7 lg:px-6 lg:py-7 xl:gap-9">
-        {/* Columna del argumento (solo pantallas anchas) */}
-        <aside className="hidden max-h-[calc(100vh-3.5rem)] w-[310px] shrink-0 overflow-y-auto pr-1 xl:block">
-          <Marca />
-          <div className="mt-5">
-            <SobreElProyecto />
-          </div>
-        </aside>
-
-        {/* El teléfono */}
+      {/* Contenido centrado: solo el teléfono */}
+      <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center sm:py-6 lg:py-7">
         <div className="h-[calc(100dvh-2.75rem)] shrink-0 sm:h-auto">{children}</div>
+      </div>
 
-        {/* Columna de narración y controles */}
-        <aside className="hidden max-h-[calc(100vh-3.5rem)] w-[336px] shrink-0 space-y-4 overflow-y-auto pr-1 lg:block">
-          <div className="flex items-center justify-between gap-2">
-            <span className="xl:hidden">
-              <Marca />
-            </span>
-            <span className="hidden text-[10.5px] font-bold uppercase tracking-[0.16em] text-slate-400 xl:block dark:text-slate-500">
-              Demostración
-            </span>
-            <div className="flex items-center gap-1.5">
-              <button
-                type="button"
-                onClick={onReiniciar}
-                aria-label="Reiniciar la demostración"
-                title="Reiniciar la demostración"
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition-colors hover:border-popular-300 hover:text-popular-700 dark:border-slate-700 dark:text-slate-400 dark:hover:border-popular-500"
-              >
-                <Icono nombre="reiniciar" tam={15} grosor={2} />
-              </button>
-              <BotonTema />
-            </div>
-          </div>
+      {/* Drawer izquierdo: Sobre el proyecto */}
+      <Drawer
+        abierto={panelIzq}
+        lado="izquierdo"
+        onCerrar={() => setPanelIzq(false)}
+        titulo="Sobre el proyecto"
+      >
+        <SobreElProyecto />
+      </Drawer>
 
+      {/* Drawer derecho: Narración + Recorrido guiado + Reiniciar */}
+      <Drawer
+        abierto={panelDer}
+        lado="derecho"
+        onCerrar={() => setPanelDer(false)}
+        titulo="Demostración"
+      >
+        <div className="space-y-4">
           <NotaDePantalla nota={nota} />
-          <Recorrido paso={paso} onPaso={onPaso} />
-
+          <Recorrido paso={paso} onPaso={(i) => { onPaso(i); setPanelDer(false) }} />
+          <button
+            type="button"
+            onClick={() => { onReiniciar(); setPanelDer(false) }}
+            className="flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 px-3 py-2.5 text-[12px] font-semibold text-slate-600 transition-colors hover:border-popular-300 hover:bg-popular-50 hover:text-popular-700 dark:border-slate-700 dark:text-slate-300 dark:hover:border-popular-500 dark:hover:bg-popular-950/40"
+          >
+            <Icono nombre="reiniciar" tam={14} grosor={2} />
+            Reiniciar demostración
+          </button>
           <p className="pb-2 text-[10.5px] leading-relaxed text-slate-400 dark:text-slate-500">
             Prototipo de demostración. Cliente, metas y montos son ficticios; los
             rendimientos son estimaciones de la simulación y no una tasa ofrecida.
           </p>
-        </aside>
-      </div>
+        </div>
+      </Drawer>
 
-      {/* Información del proyecto en móvil */}
+      {/* Información del proyecto en móvil (fullscreen overlay) */}
       {info ? (
-        <div className="animar-fundido fixed inset-0 z-50 flex flex-col bg-white lg:hidden dark:bg-slate-950">
+        <div className="animar-fundido fixed inset-0 z-50 flex flex-col bg-white md:hidden dark:bg-slate-950">
           <div className="flex h-12 shrink-0 items-center justify-between border-b border-slate-200 px-4 dark:border-slate-800">
             <h2 className="font-display text-[15px] font-extrabold text-slate-900 dark:text-slate-50">
               Sobre el proyecto
@@ -273,3 +341,4 @@ function Escenario({ nota, paso, onPaso, onReiniciar, children }: EscenarioProps
 }
 
 export default Escenario
+

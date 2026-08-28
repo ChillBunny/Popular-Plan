@@ -5,7 +5,6 @@ import type { NotaPantalla } from '../../data/presentacion'
 import { PRODUCTOS } from '../../data/catalogo'
 import { useTema } from '../../theme/tema'
 import Icono from '../ui/Icono'
-import SobreElProyecto from './SobreElProyecto'
 
 export interface EscenarioProps {
   /** Nota de la pantalla que se está viendo */
@@ -218,31 +217,17 @@ function Drawer({
  * compactos para no competir con la app.
  */
 function Escenario({ nota, paso, onPaso, onReiniciar, children }: EscenarioProps) {
-  const [panelIzq, setPanelIzq] = useState(false)
   const [panelDer, setPanelDer] = useState(false)
-  const [info, setInfo] = useState(false)
 
   const botonClase =
     'flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition-colors hover:border-popular-300 hover:text-popular-700 dark:border-slate-700 dark:text-slate-400 dark:hover:border-popular-500 dark:hover:text-popular-200'
 
   return (
     <div className="fondo-escenario min-h-screen bg-slate-50 dark:bg-slate-950">
-      {/* Barra superior: marca + 3 botones */}
+      {/* Barra superior: marca + 2 botones */}
       <div className="flex h-11 items-center justify-between gap-2 border-b border-slate-200/80 bg-white/80 px-3 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/80">
         <Marca />
         <div className="flex items-center gap-1.5">
-          <button
-            type="button"
-            onClick={() => {
-              if (window.innerWidth < 768) setInfo(true)
-              else setPanelIzq(true)
-            }}
-            aria-label="Sobre el proyecto"
-            title="Sobre el proyecto"
-            className={botonClase}
-          >
-            <Icono nombre="info" tam={15} grosor={2} />
-          </button>
           <button
             type="button"
             onClick={() => setPanelDer(true)}
@@ -260,16 +245,6 @@ function Escenario({ nota, paso, onPaso, onReiniciar, children }: EscenarioProps
       <div className="mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center sm:py-6 lg:py-7">
         <div className="h-[calc(100dvh-2.75rem)] shrink-0 sm:h-auto">{children}</div>
       </div>
-
-      {/* Drawer izquierdo: Sobre el proyecto */}
-      <Drawer
-        abierto={panelIzq}
-        lado="izquierdo"
-        onCerrar={() => setPanelIzq(false)}
-        titulo="Sobre el proyecto"
-      >
-        <SobreElProyecto />
-      </Drawer>
 
       {/* Drawer derecho: Narración + Recorrido guiado + Reiniciar */}
       <Drawer
@@ -291,28 +266,6 @@ function Escenario({ nota, paso, onPaso, onReiniciar, children }: EscenarioProps
           </button>
         </div>
       </Drawer>
-
-      {/* Información del proyecto en móvil (fullscreen overlay) */}
-      {info ? (
-        <div className="animar-fundido fixed inset-0 z-50 flex flex-col bg-white md:hidden dark:bg-slate-950">
-          <div className="flex h-12 shrink-0 items-center justify-between border-b border-slate-200 px-4 dark:border-slate-800">
-            <h2 className="font-display text-[15px] font-extrabold text-slate-900 dark:text-slate-50">
-              Sobre el proyecto
-            </h2>
-            <button
-              type="button"
-              onClick={() => setInfo(false)}
-              aria-label="Cerrar"
-              className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:hover:bg-slate-800"
-            >
-              <Icono nombre="cerrar" tam={18} grosor={2} />
-            </button>
-          </div>
-          <div className="flex-1 overflow-y-auto px-4 py-5">
-            <SobreElProyecto />
-          </div>
-        </div>
-      ) : null}
     </div>
   )
 }

@@ -26,9 +26,7 @@ function Inicio({ planes, onAbrirPlan, onNuevaMeta }: InicioProps) {
       <header className="shrink-0 bg-gradient-to-b from-popular-700 to-popular-600 px-5 pb-6 pt-4 text-white dark:from-popular-900 dark:to-popular-800">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-popular-200">
-              Popular Plan
-            </p>
+            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-popular-200">Popular Plan</p>
             <h1 className="mt-0.5 text-lg font-bold">Hola, {CLIENTE.nombre}</h1>
           </div>
           <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-sm font-bold">
@@ -37,14 +35,12 @@ function Inicio({ planes, onAbrirPlan, onNuevaMeta }: InicioProps) {
         </div>
 
         <div className="mt-5">
-          <p className="text-[11.5px] text-popular-100">Ahorro con destino</p>
           <p className="mt-1 font-display text-[34px] font-extrabold leading-none tabular-nums">
             {pesos(total)}
           </p>
           <p className="mt-2.5 inline-flex items-center gap-1.5 rounded-full bg-white/12 py-1 pl-2 pr-3 text-[11.5px] font-medium text-white">
             <Icono nombre="crecer" tam={13} grosor={2.2} />
-            <span className="tabular-nums">{pesos(generado)}</span> generados mientras
-            esperas
+            <span className="tabular-nums">{pesos(generado)}</span> generado
           </p>
         </div>
       </header>
@@ -67,9 +63,6 @@ function Inicio({ planes, onAbrirPlan, onNuevaMeta }: InicioProps) {
             <p className="text-[13px] font-semibold text-slate-600 dark:text-slate-300">
               Todavía no tienes una meta
             </p>
-            <p className="max-w-[15rem] text-[11.5px] leading-relaxed text-slate-500 dark:text-slate-400">
-              Empieza por el destino: qué quieres lograr, cuánto cuesta y para cuándo.
-            </p>
           </div>
         ) : (
           planes.map((plan) => (
@@ -82,9 +75,7 @@ function Inicio({ planes, onAbrirPlan, onNuevaMeta }: InicioProps) {
         </Boton>
 
         <Nota icono="candado" tono="aviso">
-          El dinero de tus planes se coloca a {SUPUESTOS.ventanaDias} días. Puedes
-          retirarlo en la ventana de disponibilidad de cada colocación, no al instante:
-          esa es justamente la disciplina que hace que la meta llegue.
+          Disponible al vencer cada período de {SUPUESTOS.ventanaDias} días.
         </Nota>
       </main>
     </>

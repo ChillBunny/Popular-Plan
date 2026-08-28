@@ -13,7 +13,7 @@ import {
   proyectar,
   saldo,
 } from '../utils/plan'
-import { pesos, pesosCorto, plazoLargo, porcentaje } from '../utils/formato'
+import { pesos, pesosCorto, porcentaje } from '../utils/formato'
 import BarraApp from '../components/layout/BarraApp'
 import AnilloProgreso from '../components/ui/AnilloProgreso'
 import RutaInteligente from '../components/ui/RutaInteligente'
@@ -111,18 +111,11 @@ function DetallePlan({ plan, onVolver, onAportar, onAvanzar }: DetallePlanProps)
       </div>
 
       <main className="animar-vista min-h-0 flex-1 space-y-3 overflow-y-auto px-4 pb-6 pt-4">
-        <Tarjeta
-          titulo="Ruta Inteligente"
-          subtitulo="Tu objetivo partido en tres hitos. En cada uno el banco te propone el siguiente paso."
-        >
+        <Tarjeta titulo="Ruta Inteligente">
           <RutaInteligente valor={avance} objetivo={plan.objetivo} />
         </Tarjeta>
 
-        <Tarjeta
-          id="crecimiento"
-          titulo="Tu dinero está trabajando"
-          subtitulo={`Mientras se acumula, el saldo se coloca a ${SUPUESTOS.ventanaDias} días y lo que genera vuelve a tu plan.`}
-        >
+        <Tarjeta id="crecimiento" titulo="Tu dinero crece">
           <Suspense
             fallback={
               <div className="h-[168px] w-full animate-pulse rounded-xl bg-slate-100 dark:bg-slate-700/40" />
@@ -142,22 +135,19 @@ function DetallePlan({ plan, onVolver, onAportar, onAvanzar }: DetallePlanProps)
               etiqueta="Lo puso tu dinero"
               valor={pesos(plan.rendimiento)}
               tono="crece"
-              detalle="Estimado de la simulación"
+              detalle="Estimado"
             />
           </div>
 
           <div className="mt-3">
             <Nota icono="crecer" tono="crece">
-              Lo administra {PRODUCTOS.afi.nombre} en instrumentos de corto plazo. El
-              rendimiento mostrado es una estimación del prototipo, no una tasa ofrecida
-              ni garantizada.
+              {PRODUCTOS.afi.nombre} · estimado, no garantizado.
             </Nota>
           </div>
         </Tarjeta>
 
         <Tarjeta
-          titulo="Aportes"
-          subtitulo={`${pesos(plan.aporteMensual)} cada mes vía ${CANALES[plan.canal].nombre}`}
+          titulo={`${pesos(plan.aporteMensual)} / mes`}
           accion={
             <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-popular-50 text-popular-700 dark:bg-popular-900/50 dark:text-popular-200">
               <Icono nombre={CANALES[plan.canal].icono} tam={18} grosor={1.8} />
@@ -177,41 +167,9 @@ function DetallePlan({ plan, onVolver, onAportar, onAvanzar }: DetallePlanProps)
             {completo ? 'Meta completada' : 'Aportar ahora'}
           </Boton>
 
-          {plan.aportes.length === 0 ? (
-            <p className="mt-3 py-2 text-[12px] text-slate-400 dark:text-slate-500">
-              Todavía sin movimientos en este plan.
-            </p>
-          ) : (
-            <ul className="mt-3 divide-y divide-slate-100 dark:divide-slate-700/60">
-              {plan.aportes
-                .slice(-3)
-                .reverse()
-                .map((aporte, i) => (
-                  <li
-                    key={`${aporte.mes}-${aporte.tipo}-${i}`}
-                    className="flex items-center justify-between gap-3 py-2 text-[12px]"
-                  >
-                    <span className="min-w-0 truncate text-slate-600 dark:text-slate-300">
-                      {aporte.tipo === 'inicial'
-                        ? 'Aporte de arranque'
-                        : aporte.tipo === 'extra'
-                          ? 'Aporte adicional'
-                          : 'Aporte del mes'}
-                      <span className="text-slate-400 dark:text-slate-500">
-                        {' '}
-                        · {CANALES[aporte.canal].nombre}
-                      </span>
-                    </span>
-                    <span className="shrink-0 font-semibold tabular-nums text-slate-800 dark:text-slate-100">
-                      {pesos(aporte.monto)}
-                    </span>
-                  </li>
-                ))}
-            </ul>
-          )}
         </Tarjeta>
 
-        <Tarjeta titulo="Detalles del plan">
+        <Tarjeta titulo="Plan">
           <div className="divide-y divide-slate-100 dark:divide-slate-700/60">
             <Fila
               etiqueta="Llegada estimada"
@@ -222,16 +180,6 @@ function DetallePlan({ plan, onVolver, onAportar, onAvanzar }: DetallePlanProps)
               }
             />
             <Fila etiqueta="Fecha que te pusiste" valor={etiquetaMesLarga(mesMetaPrometido(plan))} />
-            <Fila
-              etiqueta="Tiempo restante"
-              valor={
-                completo
-                  ? 'Meta cumplida'
-                  : proyeccion.mesesRestantes === null
-                    ? 'Sin ritmo suficiente'
-                    : plazoLargo(proyeccion.mesesRestantes)
-              }
-            />
             <Fila etiqueta="Titularidad" valor={BENEFICIARIOS[plan.beneficiario].nombre} />
             <Fila
               etiqueta="Disponibilidad"
@@ -241,10 +189,7 @@ function DetallePlan({ plan, onVolver, onAportar, onAvanzar }: DetallePlanProps)
         </Tarjeta>
 
         {/* Controles del prototipo: en la app real el tiempo pasa solo. */}
-        <Tarjeta
-          titulo="Simular el paso del tiempo"
-          subtitulo="Control del prototipo para ver la ruta avanzar sin esperar meses reales."
-        >
+        <Tarjeta titulo="Avanzar demo">
           <div className="flex gap-2">
             <Boton tono="secundario" ancho disabled={completo} onClick={() => onAvanzar(1)}>
               +1 mes

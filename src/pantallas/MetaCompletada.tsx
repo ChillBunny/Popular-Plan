@@ -6,7 +6,7 @@ import BarraApp from '../components/layout/BarraApp'
 import Boton from '../components/ui/Boton'
 import Confeti from '../components/ui/Confeti'
 import Icono from '../components/ui/Icono'
-import Tarjeta, { Nota } from '../components/ui/Tarjeta'
+import Tarjeta from '../components/ui/Tarjeta'
 
 export interface MetaCompletadaProps {
   plan: Plan
@@ -73,15 +73,7 @@ function MetaCompletada({ plan, onVolver }: MetaCompletadaProps) {
       </div>
 
       <main className="animar-vista min-h-0 flex-1 space-y-3 overflow-y-auto px-4 pb-6 pt-4">
-        <div className="px-1">
-          <h2 className="text-[15px] font-bold text-slate-900 dark:text-slate-100">
-            Ahora, el puente
-          </h2>
-          <p className="mt-1 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
-            Guardaste con un propósito. Estas son las puertas que ese propósito abre
-            dentro del mismo ecosistema, sin que tengas que salir a resolverlo por fuera.
-          </p>
-        </div>
+        <h2 className="px-1 text-[15px] font-bold text-slate-900 dark:text-slate-100">Ahora eliges tu destino</h2>
 
         <Tarjeta>
           <div className="flex items-start gap-3">
@@ -109,9 +101,6 @@ function MetaCompletada({ plan, onVolver }: MetaCompletadaProps) {
                     <span className="block text-[13px] font-semibold text-slate-800 dark:text-slate-100">
                       {opcion.titulo}
                     </span>
-                    <span className="mt-0.5 block text-[11.5px] leading-snug text-slate-500 dark:text-slate-400">
-                      {opcion.detalle}
-                    </span>
                   </span>
                   <span className="text-slate-300 dark:text-slate-600">
                     <Icono nombre="chevron" tam={16} grosor={2.2} />
@@ -125,12 +114,6 @@ function MetaCompletada({ plan, onVolver }: MetaCompletadaProps) {
         <Boton tam="lg" ancho icono="adelante" iconoDerecha>
           Hablar con mi asesor
         </Boton>
-
-        <Nota icono="usuario" tono="aviso">
-          Cada una de estas opciones la coordina un asesor del Popular contigo. La app
-          abre la puerta y ordena el expediente; la decisión y la evaluación siguen
-          siendo de personas.
-        </Nota>
 
         <Boton tono="texto" ancho onClick={onVolver}>
           Volver a mis metas

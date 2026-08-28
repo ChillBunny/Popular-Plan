@@ -116,17 +116,6 @@ function Recorrido({ paso, onPaso }: { paso: number; onPaso: (i: number) => void
                   >
                     {item.titulo}
                   </span>
-                  {/* El resumen se muestra siempre: si solo apareciera en el
-                      paso activo, cambiar de paso reacomodaría toda la lista. */}
-                  <span
-                    className={`mt-0.5 block text-[11px] leading-snug ${
-                      activo
-                        ? 'text-slate-500 dark:text-slate-400'
-                        : 'text-slate-400 dark:text-slate-500'
-                    }`}
-                  >
-                    {item.resumen}
-                  </span>
                 </span>
               </button>
             </li>
@@ -141,18 +130,10 @@ function Recorrido({ paso, onPaso }: { paso: number; onPaso: (i: number) => void
 function NotaDePantalla({ nota }: { nota: NotaPantalla }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-slate-800/60">
-      <h3 className="text-[10.5px] font-bold uppercase tracking-[0.16em] text-slate-400 dark:text-slate-500">
-        En esta pantalla
-      </h3>
-      {/* Alturas reservadas para la nota más larga: al navegar entre
-          pantallas el recorrido de abajo se queda donde está. */}
-      <p className="mt-2 min-h-[38px] font-display text-[14px] font-bold leading-snug text-slate-900 dark:text-slate-50">
+      <p className="font-display text-[14px] font-bold leading-snug text-slate-900 dark:text-slate-50">
         {nota.titulo}
       </p>
-      <p className="mt-1.5 min-h-[114px] text-[12px] leading-relaxed text-slate-600 dark:text-slate-300">
-        {nota.texto}
-      </p>
-      <div className="mt-3 flex min-h-[46px] flex-wrap content-start gap-1.5">
+      <div className="mt-3 flex flex-wrap gap-1.5">
         {nota.activos.map((id) => (
           <span
             key={id}
@@ -308,10 +289,6 @@ function Escenario({ nota, paso, onPaso, onReiniciar, children }: EscenarioProps
             <Icono nombre="reiniciar" tam={14} grosor={2} />
             Reiniciar demostración
           </button>
-          <p className="pb-2 text-[10.5px] leading-relaxed text-slate-400 dark:text-slate-500">
-            Prototipo de demostración. Cliente, metas y montos son ficticios; los
-            rendimientos son estimaciones de la simulación y no una tasa ofrecida.
-          </p>
         </div>
       </Drawer>
 
@@ -341,4 +318,3 @@ function Escenario({ nota, paso, onPaso, onReiniciar, children }: EscenarioProps
 }
 
 export default Escenario
-

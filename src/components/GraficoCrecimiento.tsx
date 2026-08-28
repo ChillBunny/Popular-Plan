@@ -77,7 +77,7 @@ function GraficoCrecimiento({ plan }: GraficoCrecimientoProps) {
   }))
 
   return (
-    <div className="h-[168px] w-full">
+    <div className="h-[168px] min-h-[168px] min-w-0 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={datos} margin={{ top: 8, right: 4, bottom: 0, left: -14 }}>
           <defs>

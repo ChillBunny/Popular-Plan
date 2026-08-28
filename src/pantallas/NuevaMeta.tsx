@@ -17,7 +17,6 @@ import Boton from '../components/ui/Boton'
 import Deslizador from '../components/ui/Deslizador'
 import Opcion from '../components/ui/Opcion'
 import Icono from '../components/ui/Icono'
-import { Nota } from '../components/ui/Tarjeta'
 
 export interface NuevaMetaProps {
   /** Mes absoluto en que arranca el plan */
@@ -140,10 +139,6 @@ function NuevaMeta({ mesHoy, onCancelar, onCrear }: NuevaMetaProps) {
           <h2 className="text-[19px] font-bold text-slate-900 dark:text-slate-100">
             ¿Para qué estás ahorrando?
           </h2>
-          <p className="mt-1 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
-            El propósito no es una etiqueta: define a dónde va a llegar tu dinero cuando
-            completes la meta.
-          </p>
 
           <div className="mt-4 grid grid-cols-2 gap-2.5">
             {ORDEN_PROPOSITOS.map((id) => (
@@ -161,13 +156,6 @@ function NuevaMeta({ mesHoy, onCancelar, onCrear }: NuevaMetaProps) {
           </div>
 
           <div className="mt-4">
-            <Nota icono="bandera">
-              Vivienda es la categoría piloto del arranque: es donde la red de aliados
-              del Grupo Popular ya está construida.
-            </Nota>
-          </div>
-
-          <div className="mt-4">
             <Boton tam="lg" ancho icono="adelante" iconoDerecha onClick={() => setPaso(1)}>
               Continuar
             </Boton>
@@ -181,9 +169,6 @@ function NuevaMeta({ mesHoy, onCancelar, onCrear }: NuevaMetaProps) {
             <h2 className="text-[19px] font-bold text-slate-900 dark:text-slate-100">
               ¿Cuánto y para cuándo?
             </h2>
-            <p className="mt-1 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
-              Ponle nombre a la meta y define el número que hay que alcanzar.
-            </p>
           </div>
 
           <div>
@@ -249,10 +234,6 @@ function NuevaMeta({ mesHoy, onCancelar, onCrear }: NuevaMetaProps) {
               {pesos(sugerido)}
               <span className="text-sm font-semibold"> / mes</span>
             </p>
-            <p className="mt-1.5 text-[11px] leading-relaxed text-popular-700/80 dark:text-popular-200/70">
-              Ya contando lo que tu propio dinero genera mientras espera. En el
-              siguiente paso puedes ajustarlo.
-            </p>
           </div>
 
           <Boton tam="lg" ancho icono="adelante" iconoDerecha onClick={() => setPaso(2)}>
@@ -267,10 +248,6 @@ function NuevaMeta({ mesHoy, onCancelar, onCrear }: NuevaMetaProps) {
             <h2 className="text-[19px] font-bold text-slate-900 dark:text-slate-100">
               ¿Cómo vas a aportar?
             </h2>
-            <p className="mt-1 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
-              El canal es solo la puerta de entrada del dinero. Puedes cambiarlo cuando
-              quieras.
-            </p>
           </div>
 
           <Deslizador
@@ -304,9 +281,7 @@ function NuevaMeta({ mesHoy, onCancelar, onCrear }: NuevaMetaProps) {
           />
 
           <div>
-            <p className="mb-2 text-[11.5px] font-semibold text-slate-600 dark:text-slate-300">
-              Canal del aporte
-            </p>
+            <p className="mb-2 text-[11.5px] font-semibold text-slate-600 dark:text-slate-300">Desde dónde</p>
             <div className="grid gap-2">
               {ORDEN_CANALES.map((id) => (
                 <Opcion
@@ -322,9 +297,7 @@ function NuevaMeta({ mesHoy, onCancelar, onCrear }: NuevaMetaProps) {
           </div>
 
           <div>
-            <p className="mb-2 text-[11.5px] font-semibold text-slate-600 dark:text-slate-300">
-              ¿De quién es esta meta?
-            </p>
+            <p className="mb-2 text-[11.5px] font-semibold text-slate-600 dark:text-slate-300">Para quién</p>
             <div className="grid grid-cols-2 gap-2">
               {ORDEN_BENEFICIARIOS.map((id) => (
                 <Opcion
@@ -342,7 +315,7 @@ function NuevaMeta({ mesHoy, onCancelar, onCrear }: NuevaMetaProps) {
               {productoEnlazado ? (
                 <>
                   <Icono nombre="rayo" tam={12} relleno />
-                  Se puede enlazar con {productoEnlazado.nombre}.
+                  Conecta con {productoEnlazado.nombre}.
                 </>
               ) : null}
             </p>
@@ -354,10 +327,9 @@ function NuevaMeta({ mesHoy, onCancelar, onCrear }: NuevaMetaProps) {
             </p>
             <p className="mt-1.5 min-h-[63px] text-[13px] leading-relaxed text-slate-700 dark:text-slate-200">
               {proyeccion.mesLlegada === null ? (
-                <>Con este aporte la meta no llega a completarse. Sube el ritmo mensual.</>
+                <>Aumenta el aporte mensual.</>
               ) : (
                 <>
-                  Llegas a <strong>{pesos(objetivo)}</strong> en{' '}
                   <strong>{etiquetaMesLarga(proyeccion.mesLlegada)}</strong>
                   {typeof proyeccion.diferenciaConPlazo === 'number' &&
                   proyeccion.diferenciaConPlazo !== 0 ? (
@@ -365,12 +337,12 @@ function NuevaMeta({ mesHoy, onCancelar, onCrear }: NuevaMetaProps) {
                       {' '}
                       —{' '}
                       {proyeccion.diferenciaConPlazo > 0
-                        ? `${plazoLargo(proyeccion.diferenciaConPlazo)} antes de tu fecha`
-                        : `${plazoLargo(-proyeccion.diferenciaConPlazo)} después de tu fecha`}
+                        ? `${plazoLargo(proyeccion.diferenciaConPlazo)} antes`
+                        : `${plazoLargo(-proyeccion.diferenciaConPlazo)} después`}
                       .
                     </>
                   ) : (
-                    <> justo en la fecha que te pusiste.</>
+                    <> en la fecha elegida.</>
                   )}
                 </>
               )}
@@ -384,9 +356,7 @@ function NuevaMeta({ mesHoy, onCancelar, onCrear }: NuevaMetaProps) {
                   <span className="tabular-nums">
                     {pesos(proyeccion.rendimientoProyectado)}
                   </span>
-                  <span className="text-slate-500 dark:text-slate-400">
-                    los pone tu propio dinero (estimado)
-                  </span>
+                  <span className="text-slate-500 dark:text-slate-400">generado (estimado)</span>
                 </>
               ) : null}
             </p>
@@ -401,11 +371,6 @@ function NuevaMeta({ mesHoy, onCancelar, onCrear }: NuevaMetaProps) {
           >
             Crear mi plan
           </Boton>
-
-          <Nota icono="info" tono="aviso">
-            Prototipo con fines de demostración. Las cifras de rendimiento son
-            estimaciones de la simulación, no una tasa ofrecida ni garantizada.
-          </Nota>
         </main>
       ) : null}
     </>

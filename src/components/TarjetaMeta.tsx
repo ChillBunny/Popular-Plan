@@ -32,7 +32,7 @@ function TarjetaMeta({ plan, onAbrir }: TarjetaMetaProps) {
             {plan.nombre}
           </p>
           <p className="mt-0.5 truncate text-[11.5px] text-slate-500 dark:text-slate-400">
-            {proposito.nombre} · meta de {pesosCorto(plan.objetivo)}
+            {proposito.nombre} · {pesosCorto(plan.objetivo)}
           </p>
         </div>
 
@@ -64,14 +64,14 @@ function TarjetaMeta({ plan, onAbrir }: TarjetaMetaProps) {
               <span className="font-semibold tabular-nums text-slate-700 dark:text-slate-200">
                 Faltan {pesosCorto(faltaParaHito(plan, siguiente))}
               </span>
-              <span className="mt-0.5">para el hito {siguiente}%</span>
+              <span className="mt-0.5">hito {siguiente}%</span>
             </>
           ) : (
             <>
               <span className="font-semibold text-crece-600 dark:text-crece-400">
                 Meta completada
               </span>
-              <span className="mt-0.5">Ver el destino</span>
+              <span className="mt-0.5">Ver opciones</span>
             </>
           )}
         </p>

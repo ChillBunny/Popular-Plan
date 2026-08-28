@@ -1,4 +1,4 @@
-import { INSTRUMENTOS_DIRECTOS, PRODUCTOS } from '../data/catalogo'
+import { INSTRUMENTOS_DIRECTOS } from '../data/catalogo'
 import BarraApp from '../components/layout/BarraApp'
 import Boton from '../components/ui/Boton'
 import Icono from '../components/ui/Icono'
@@ -22,15 +22,9 @@ function Invertir({ onNuevaMeta }: InvertirProps) {
       <BarraApp titulo="Invertir" />
 
       <main className="animar-vista min-h-0 flex-1 space-y-3 overflow-y-auto px-4 pb-6">
-        <div className="px-1">
-          <h2 className="text-[19px] font-bold text-slate-900 dark:text-slate-100">
-            Dos formas de hacer crecer tu dinero
-          </h2>
-          <p className="mt-1 text-[12.5px] leading-relaxed text-slate-500 dark:text-slate-400">
-            La ruta guiada te lleva a un destino. La ruta directa te da el control del
-            instrumento. Ambas viven en el mismo lugar.
-          </p>
-        </div>
+        <h2 className="px-1 text-[19px] font-bold text-slate-900 dark:text-slate-100">
+          Invierte a tu manera
+        </h2>
 
         <div className="grid grid-cols-2 gap-2.5">
           <button
@@ -44,10 +38,7 @@ function Invertir({ onNuevaMeta }: InvertirProps) {
             <span className="mt-2.5 block text-[13px] font-bold text-slate-900 dark:text-slate-100">
               Con ruta
             </span>
-            <span className="mt-0.5 block text-[11px] leading-snug text-slate-600 dark:text-slate-400">
-              Pones el destino y la fecha. El sistema arma el camino y te avisa en cada
-              hito.
-            </span>
+            <span className="mt-0.5 block text-[11px] leading-snug text-slate-600 dark:text-slate-400">Con meta y hitos.</span>
           </button>
 
           <div className="rounded-2xl border border-slate-200 bg-white p-3.5 dark:border-slate-700 dark:bg-slate-800/60">
@@ -57,16 +48,11 @@ function Invertir({ onNuevaMeta }: InvertirProps) {
             <span className="mt-2.5 block text-[13px] font-bold text-slate-900 dark:text-slate-100">
               Por mi cuenta
             </span>
-            <span className="mt-0.5 block text-[11px] leading-snug text-slate-600 dark:text-slate-400">
-              Eliges tú el instrumento y el plazo, sin plan ni hitos de por medio.
-            </span>
+            <span className="mt-0.5 block text-[11px] leading-snug text-slate-600 dark:text-slate-400">Tú eliges el instrumento.</span>
           </div>
         </div>
 
-        <Tarjeta
-          titulo="Instrumentos disponibles"
-          subtitulo={`A través de ${PRODUCTOS.afi.nombre} y ${PRODUCTOS.inversiones.nombre}.`}
-        >
+        <Tarjeta titulo="Instrumentos">
           <ul className="divide-y divide-slate-100 dark:divide-slate-700/60">
             {INSTRUMENTOS_DIRECTOS.map((instrumento) => (
               <li key={instrumento.nombre}>
@@ -79,7 +65,7 @@ function Invertir({ onNuevaMeta }: InvertirProps) {
                       {instrumento.nombre}
                     </span>
                     <span className="mt-0.5 block text-[11px] text-slate-500 dark:text-slate-400">
-                      {instrumento.emisor} · {instrumento.perfil}
+                      {instrumento.emisor}
                     </span>
                   </span>
                   <span className="shrink-0 rounded-full bg-slate-100 px-2 py-0.5 text-[10.5px] font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-300">
@@ -95,13 +81,11 @@ function Invertir({ onNuevaMeta }: InvertirProps) {
         </Tarjeta>
 
         <Nota icono="escudo" tono="aviso">
-          Toda inversión conlleva riesgo y su valor puede variar. En el prototipo no se
-          muestran rendimientos por instrumento: la contratación real pasa por el
-          proceso de perfilado del puesto de bolsa.
+          Toda inversión conlleva riesgo.
         </Nota>
 
         <Boton tono="secundario" tam="lg" ancho icono="bandera" onClick={onNuevaMeta}>
-          Prefiero que me armen la ruta
+          Crear una meta
         </Boton>
       </main>
     </>

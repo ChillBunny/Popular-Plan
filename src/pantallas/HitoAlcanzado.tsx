@@ -43,12 +43,8 @@ function HitoAlcanzado({ plan, hito, onCerrar }: HitoAlcanzadoProps) {
           <h2 className="mt-1.5 text-[25px] font-extrabold leading-tight">
             {sugerencia.titulo}
           </h2>
-          <p className="mt-3 max-w-[19rem] text-[13px] leading-relaxed text-popular-100">
-            {sugerencia.mensaje}
-          </p>
-
           <p className="mt-5 rounded-full bg-white/12 px-3.5 py-1.5 text-[12px] font-semibold tabular-nums">
-            {pesos(saldo(plan))} · {Math.round(progreso(plan) * 100)}% de {plan.nombre}
+            {pesos(saldo(plan))} · {Math.round(progreso(plan) * 100)}%
           </p>
         </div>
 
@@ -60,9 +56,7 @@ function HitoAlcanzado({ plan, hito, onCerrar }: HitoAlcanzadoProps) {
               </span>
               <div className="min-w-0">
                 <p className="text-[13.5px] font-bold">{producto.nombre}</p>
-                <p className="mt-0.5 text-[11.5px] leading-relaxed text-popular-100">
-                  {producto.rol}
-                </p>
+                <p className="mt-0.5 text-[11.5px] leading-relaxed text-popular-100">Tu siguiente paso</p>
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { CanalId, Hito } from './data/catalogo'
 import { NOTAS, RECORRIDO } from './data/presentacion'
 import type { ClaveNota } from './data/presentacion'
-import { CLIENTE, planesIniciales } from './data/demo'
+import { planesIniciales } from './data/demo'
 import type { EntradaPlan, Plan } from './utils/plan'
 import {
   aportar,
@@ -14,11 +14,9 @@ import {
   mesAbsoluto,
 } from './utils/plan'
 import Escenario from './components/presentacion/Escenario'
-import SobreElProyecto from './components/presentacion/SobreElProyecto'
 import MarcoTelefono from './components/layout/MarcoTelefono'
 import BarraPestanas from './components/layout/BarraPestanas'
 import type { PestanaId } from './components/layout/BarraPestanas'
-import Hoja from './components/ui/Hoja'
 import Inicio from './pantallas/Inicio'
 import NuevaMeta from './pantallas/NuevaMeta'
 import DetallePlan from './pantallas/DetallePlan'
@@ -50,7 +48,6 @@ function App() {
   const [vista, setVista] = useState<Vista>({ tipo: 'inicio' })
   const [celebracion, setCelebracion] = useState<Celebracion | null>(null)
   const [paso, setPaso] = useState(0)
-  const [hojaProyecto, setHojaProyecto] = useState(false)
   /** Ancla que el recorrido guiado dejó pendiente de mostrar. Va en un ref y
    *  no en estado: solo se consume después del render de la pantalla. */
   const anclaPendiente = useRef<string | null>(null)
@@ -132,7 +129,6 @@ function App() {
     setPlanes(planesIniciales())
     setVista({ tipo: 'inicio' })
     setCelebracion(null)
-    setHojaProyecto(false)
     setPaso(0)
   }, [])
 
@@ -143,7 +139,6 @@ function App() {
       if (!item) return
       setPaso(indice)
       setCelebracion(null)
-      setHojaProyecto(false)
 
       const accion = item.accion
       if (accion.tipo === 'ir') {
@@ -214,7 +209,6 @@ function App() {
             planes={planes}
             onAbrirPlan={(id) => setVista({ tipo: 'plan', id })}
             onNuevaMeta={() => setVista({ tipo: 'nueva' })}
-            onSobreElProyecto={() => setHojaProyecto(true)}
           />
         )
       default:
@@ -256,17 +250,6 @@ function App() {
             onCerrar={() => setCelebracion(null)}
           />
         ) : null}
-
-        <Hoja
-          abierta={hojaProyecto}
-          onCerrar={() => setHojaProyecto(false)}
-          titulo="Sobre este prototipo"
-          descripcion={`Demostración para el Challenge de Estudiantes. Cliente ficticio: ${CLIENTE.nombreCompleto}.`}
-        >
-          <div className="pt-3">
-            <SobreElProyecto compacto />
-          </div>
-        </Hoja>
       </MarcoTelefono>
     </Escenario>
   )

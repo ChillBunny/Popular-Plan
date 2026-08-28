@@ -149,6 +149,23 @@
     display: none;
   }
 
+  /* --- Scroll dentro del dispositivo -----------------------------------
+     Un teléfono real no reserva carril de barra: la muestra superpuesta
+     mientras desplazas y la esconde después. Con la barra clásica, cada
+     pantalla que desborda la dibuja y cada una que no la quita, así que el
+     contenido saltaba 10px de ancho en cada navegación —y en medio de un
+     arrastre del deslizador—. Solo se veía en escritorio. */
+  .pantalla-dispositivo,
+  .pantalla-dispositivo * {
+    scrollbar-width: none;
+  }
+
+  .pantalla-dispositivo::-webkit-scrollbar,
+  .pantalla-dispositivo *::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
   /* --- Fondo del escenario de presentación ----------------------------- */
   .fondo-escenario {
     background-image:

@@ -19,7 +19,11 @@ function MarcoTelefono({ children }: MarcoTelefonoProps) {
         className="anillo-pulso absolute -inset-6 hidden rounded-[3.5rem] bg-popular-500/10 blur-2xl sm:block dark:bg-popular-400/10"
       />
 
-      <div className="relative flex h-full w-full flex-col overflow-hidden bg-white sm:h-[min(844px,calc(100vh-7rem))] sm:rounded-[2.9rem] sm:border-[11px] sm:border-slate-900 sm:shadow-[0_30px_70px_-20px_rgba(8,40,75,0.45)] lg:h-[min(844px,calc(100vh-4.5rem))] dark:bg-slate-950 dark:sm:border-slate-800">
+      {/* El alto descuenta el cromo real de la página —barra superior de
+          44px más el relleno vertical del contenedor— para que el documento
+          no acabe con scroll propio: 5.75rem en sm (py-6) y 6.25rem en lg
+          (py-7). */}
+      <div className="pantalla-dispositivo relative flex h-full w-full flex-col overflow-hidden bg-white sm:h-[min(844px,calc(100vh-5.75rem))] sm:rounded-[2.9rem] sm:border-[11px] sm:border-slate-900 sm:shadow-[0_30px_70px_-20px_rgba(8,40,75,0.45)] lg:h-[min(844px,calc(100vh-6.25rem))] dark:bg-slate-950 dark:sm:border-slate-800">
         {/* Barra de estado simulada (solo con marco) */}
         <div className="relative hidden shrink-0 items-center justify-between px-7 pb-1 pt-3 text-[12px] font-semibold text-slate-900 sm:flex dark:text-slate-100">
           <span className="tabular-nums">9:41</span>

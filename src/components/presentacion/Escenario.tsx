@@ -223,7 +223,12 @@ function Escenario({ nota, paso, onPaso, onReiniciar, children }: EscenarioProps
     'flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition-colors hover:border-popular-300 hover:text-popular-700 dark:border-slate-700 dark:text-slate-400 dark:hover:border-popular-500 dark:hover:text-popular-200'
 
   return (
-    <div className="fondo-escenario min-h-screen bg-slate-50 dark:bg-slate-950">
+    /* En escritorio el escenario mide exactamente la ventana (barra + relleno
+       + teléfono, que se encoge para caber), así que se cierra el scroll de
+       la página: si no, cualquier desbordamiento momentáneo durante una
+       transición hace parpadear la barra del navegador y desplaza todo en
+       horizontal. Los drawers son `fixed`, así que no los recorta. */
+    <div className="fondo-escenario min-h-screen bg-slate-50 sm:h-screen sm:overflow-hidden dark:bg-slate-950">
       {/* Barra superior: marca + 2 botones */}
       <div className="flex h-11 items-center justify-between gap-2 border-b border-slate-200/80 bg-white/80 px-3 backdrop-blur-md dark:border-slate-800/80 dark:bg-slate-900/80">
         <Marca />

@@ -1,0 +1,351 @@
+@import "tailwindcss";
+
+/* Modo oscuro por clase (.dark en <html>), no por preferencia del SO: lo
+   controla el usuario desde el marco de presentación y persiste. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* --- Azul institucional -------------------------------------------------
+     Aproximación al azul del Grupo Popular. Si el equipo consigue la guía de
+     marca oficial, basta sustituir esta escala: toda la app la consume por
+     token (bg-popular-600, text-popular-700, …). */
+  --color-popular-50: #eef5fc;
+  --color-popular-100: #d8e8f8;
+  --color-popular-200: #b0cff1;
+  --color-popular-300: #7fb0e6;
+  --color-popular-400: #4a8ed6;
+  --color-popular-500: #2270c1;
+  --color-popular-600: #0d55a4;
+  --color-popular-700: #0a4384;
+  --color-popular-800: #0a3667;
+  --color-popular-900: #08284b;
+  --color-popular-950: #051a33;
+
+  /* Verde de crecimiento: lo que el dinero genera mientras espera. */
+  --color-crece-50: #e9f8f4;
+  --color-crece-400: #34c3ac;
+  --color-crece-500: #12a594;
+  --color-crece-600: #0d8478;
+  --color-crece-700: #0b6a61;
+
+  /* Ámbar de logro: hitos y celebración, nunca para datos financieros. */
+  --color-logro-50: #fdf5e7;
+  --color-logro-400: #f0b94a;
+  --color-logro-500: #e09b1f;
+  --color-logro-600: #b87814;
+
+  /* Tipografía: Jakarta para titulares y cifras (números altos y legibles),
+     Inter para el cuerpo. Sin monoespaciada: esto es una app de ahorro, no
+     una terminal de mercado. */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  :root.dark {
+    color-scheme: dark;
+  }
+
+  /* Cross-fade de respaldo para navegadores sin View Transitions API. */
+  :root.transicion-tema,
+  :root.transicion-tema *,
+  :root.transicion-tema *::before,
+  :root.transicion-tema *::after {
+    transition:
+      background-color 300ms ease,
+      border-color 300ms ease,
+      color 300ms ease,
+      fill 300ms ease,
+      stroke 300ms ease !important;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    /* El color va también en body y no solo en el escenario: al rebotar el
+       scroll en móvil se ve el fondo del documento. */
+    background-color: var(--color-slate-50);
+    color: var(--color-slate-900);
+  }
+
+  :root.dark body {
+    background-color: var(--color-slate-950);
+    color: var(--color-slate-100);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: rgb(13 85 164 / 0.2);
+  }
+
+  :root.dark ::selection {
+    background: rgb(74 142 214 / 0.35);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-popular-600);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  :root.dark :focus-visible {
+    outline-color: var(--color-popular-300);
+  }
+
+  /* Scrollbars finas y del tema (el teléfono tiene mucho scroll interno). */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(148 163 184 / 0.45) transparent;
+  }
+
+  :root.dark * {
+    scrollbar-color: rgb(71 85 105 / 0.6) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: rgb(148 163 184 / 0.45);
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Carril deslizable sin barra visible (chips de propósito, pasos del
+     recorrido en pantallas angostas). */
+  .sin-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .sin-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* --- Fondo del escenario de presentación ----------------------------- */
+  .fondo-escenario {
+    background-image:
+      radial-gradient(120% 80% at 50% -10%, rgb(13 85 164 / 0.1), transparent 60%),
+      linear-gradient(180deg, rgb(13 85 164 / 0.04), transparent 520px);
+  }
+
+  :root.dark .fondo-escenario {
+    background-image:
+      radial-gradient(120% 80% at 50% -10%, rgb(74 142 214 / 0.16), transparent 60%),
+      linear-gradient(180deg, rgb(74 142 214 / 0.05), transparent 520px);
+  }
+
+  /* --- Movimiento -------------------------------------------------------
+     Solo opacity y transform: sin re-layout, seguro en móvil. */
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes aparecer-suave {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes subir-hoja {
+    from {
+      opacity: 0;
+      transform: translateY(100%);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes sello-logro {
+    0% {
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    60% {
+      opacity: 1;
+      transform: scale(1.08);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes caer-confeti {
+    from {
+      opacity: 1;
+      transform: translateY(-12%) rotate(0deg);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(140%) rotate(540deg);
+    }
+  }
+
+  @keyframes pulso-anillo {
+    0%,
+    100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.55;
+      transform: scale(1.06);
+    }
+  }
+
+  /* Los bloques de una pantalla entran en cascada (stagger de 45ms).
+     fill-mode backwards, nunca forwards: la animación se desprende al
+     terminar y no deja capas de GPU retenidas. */
+  .animar-vista > * {
+    animation: aparecer 420ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  .animar-vista > :nth-child(2) {
+    animation-delay: 45ms;
+  }
+
+  .animar-vista > :nth-child(3) {
+    animation-delay: 90ms;
+  }
+
+  .animar-vista > :nth-child(4) {
+    animation-delay: 135ms;
+  }
+
+  .animar-vista > :nth-child(n + 5) {
+    animation-delay: 180ms;
+  }
+
+  .animar-hoja {
+    animation: subir-hoja 320ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .animar-sello {
+    animation: sello-logro 620ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  }
+
+  .animar-fundido {
+    animation: aparecer-suave 260ms ease-out backwards;
+  }
+
+  .anillo-pulso {
+    animation: pulso-anillo 3.5s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animar-vista > *,
+    .animar-hoja,
+    .animar-sello,
+    .animar-fundido,
+    .anillo-pulso {
+      animation: none !important;
+    }
+  }
+
+  /* Sliders con apariencia idéntica en todos los navegadores: el control
+     nativo varía por versión y el de Windows se dibuja cuadrado. */
+  input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 22px;
+    width: 100%;
+    background: transparent;
+    cursor: pointer;
+    --pista: #e2e8f0;
+    --pulgar: var(--color-popular-600);
+  }
+
+  :root.dark input[type='range'] {
+    --pista: #334155;
+    --pulgar: var(--color-popular-300);
+  }
+
+  input[type='range']::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 9999px;
+    background: linear-gradient(
+      to right,
+      var(--pulgar) var(--progreso, 0%),
+      var(--pista) var(--progreso, 0%)
+    );
+  }
+
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: -7px;
+    height: 20px;
+    width: 20px;
+    border-radius: 9999px;
+    border: 3px solid #fff;
+    background: var(--pulgar);
+    box-shadow: 0 1px 4px rgb(8 40 75 / 0.35);
+    transition: transform 120ms ease;
+  }
+
+  input[type='range']::-webkit-slider-thumb:hover {
+    transform: scale(1.12);
+  }
+
+  input[type='range']::-moz-range-track {
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--pista);
+  }
+
+  input[type='range']::-moz-range-progress {
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--pulgar);
+  }
+
+  input[type='range']::-moz-range-thumb {
+    height: 20px;
+    width: 20px;
+    border-radius: 9999px;
+    border: 3px solid #fff;
+    background: var(--pulgar);
+    box-shadow: 0 1px 4px rgb(8 40 75 / 0.35);
+    transition: transform 120ms ease;
+  }
+}

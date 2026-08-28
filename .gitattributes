@@ -1,0 +1,18 @@
+# Normalización de finales de línea: el repositorio guarda siempre LF.
+# Evita los avisos "LF -> CRLF" al hacer commit desde Windows y garantiza
+# diffs limpios para cualquier colaborador o CI.
+* text=auto eol=lf
+
+# Archivos binarios: nunca tocar sus bytes
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.xlsx binary
+
+# Scripts de Windows sí requieren CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf

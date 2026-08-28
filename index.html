@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0d55a4" />
+    <title>Popular Plan — Ahorro con destino</title>
+    <meta
+      name="description"
+      content="Prototipo de Popular Plan: ahorro por metas del Grupo Popular donde el dinero no solo crece, llega conectado al destino que motivó el ahorro."
+    />
+    <!-- Plus Jakarta Sans para titulares y cifras; Inter para el cuerpo. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Aplica el tema guardado antes de que monte React (evita el destello).
+      // El claro es el default: es una app de banca para consumidor.
+      try {
+        if (localStorage.getItem('popular-plan-tema') === 'oscuro') {
+          document.documentElement.classList.add('dark')
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

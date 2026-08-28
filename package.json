@@ -2,6 +2,9 @@
   "name": "popular-plan",
   "private": true,
   "version": "1.0.0",
+  "engines": {
+    "node": ">=22"
+  },
   "description": "Prototipo de Popular Plan: ahorro por metas del Grupo Popular con Ruta Inteligente y conexión al destino de la compra.",
   "type": "module",
   "scripts": {

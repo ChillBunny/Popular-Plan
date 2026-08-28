@@ -1,5 +1,5 @@
 import type { Plan } from '../utils/plan'
-import { SUPUESTOS, totalAhorrado, totalGenerado } from '../utils/plan'
+import { aporteMensualTotal, SUPUESTOS, totalAhorrado, totalGenerado, ultimoAporte } from '../utils/plan'
 import { pesos } from '../utils/formato'
 import { CLIENTE } from '../data/demo'
 import Icono from '../components/ui/Icono'
@@ -20,6 +20,8 @@ export interface InicioProps {
 function Inicio({ planes, onAbrirPlan, onNuevaMeta }: InicioProps) {
   const total = totalAhorrado(planes)
   const generado = totalGenerado(planes)
+  const mensual = aporteMensualTotal(planes)
+  const ultimo = ultimoAporte(planes)
 
   return (
     <>
@@ -42,6 +44,19 @@ function Inicio({ planes, onAbrirPlan, onNuevaMeta }: InicioProps) {
             <Icono nombre="crecer" tam={13} grosor={2.2} />
             <span className="tabular-nums">{pesos(generado)}</span> generado
           </p>
+
+          <div className="mt-4 grid max-w-[18rem] grid-cols-2 gap-2">
+            <span className="rounded-xl bg-white/10 px-3 py-2">
+              <span className="block text-[10px] text-popular-200">Cada mes</span>
+              <span className="mt-0.5 block text-[13px] font-bold tabular-nums">{pesos(mensual)}</span>
+            </span>
+            <span className="rounded-xl bg-white/10 px-3 py-2">
+              <span className="block text-[10px] text-popular-200">Último aporte</span>
+              <span className="mt-0.5 block text-[13px] font-bold tabular-nums">
+                {ultimo ? pesos(ultimo.monto) : '—'}
+              </span>
+            </span>
+          </div>
         </div>
       </header>
 

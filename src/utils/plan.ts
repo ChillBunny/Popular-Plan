@@ -413,3 +413,21 @@ export function totalGenerado(planes: Plan[]): number {
 export function totalObjetivo(planes: Plan[]): number {
   return planes.reduce((suma, plan) => suma + plan.objetivo, 0)
 }
+
+/** Suma el compromiso mensual de las metas que todavía siguen activas. */
+export function aporteMensualTotal(planes: Plan[]): number {
+  return planes
+    .filter((plan) => !completado(plan))
+    .reduce((suma, plan) => suma + plan.aporteMensual, 0)
+}
+
+/** Último aporte mensual o extra registrado entre todas las metas. */
+export function ultimoAporte(planes: Plan[]): Aporte | null {
+  return planes
+    .flatMap((plan) => plan.aportes)
+    .filter((aporte) => aporte.tipo !== 'inicial')
+    .reduce<Aporte | null>(
+      (ultimo, aporte) => (!ultimo || aporte.mes > ultimo.mes ? aporte : ultimo),
+      null,
+    )
+}

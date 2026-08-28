@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   aportar,
+  aporteMensualTotal,
   aporteNecesario,
   avanzarMes,
   avanzarMeses,
@@ -15,6 +16,7 @@ import {
   proximoHito,
   proyectar,
   saldo,
+  ultimoAporte,
 } from './plan'
 import type { EntradaPlan } from './plan'
 import { pesos, pesosCorto, plazoLargo } from './formato'
@@ -170,6 +172,26 @@ describe('aporteNecesario', () => {
 
   it('cae a cero cuando el inicial ya cubre el objetivo', () => {
     expect(aporteNecesario(100_000, 24, 500_000)).toBe(0)
+  })
+})
+
+describe('resumen de aportes', () => {
+  it('solo suma el ritmo de las metas activas', () => {
+    const activa = crearPlan({ ...BASE, aporteMensual: 3_000 })
+    const cumplida = aportar(crearPlan({ ...BASE, aporteMensual: 9_000 }), 5_000_000)
+    expect(aporteMensualTotal([activa, cumplida])).toBe(3_000)
+  })
+
+  it('devuelve el aporte más reciente y descarta el de arranque', () => {
+    const primerPlan = avanzarMeses(crearPlan({ ...BASE, aporteMensual: 2_000 }), 2)
+    const segundoPlan = avanzarMeses(
+      crearPlan({ ...BASE, id: 'segundo', aporteMensual: 3_000 }),
+      4,
+    )
+    expect(ultimoAporte([primerPlan, segundoPlan])).toMatchObject({
+      monto: 3_000,
+      tipo: 'mensual',
+    })
   })
 })
 

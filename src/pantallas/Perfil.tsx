@@ -1,7 +1,7 @@
 import { BENEFICIARIOS, CANALES, PRODUCTOS, PROPOSITOS } from '../data/catalogo'
 import type { ProductoId } from '../data/catalogo'
 import type { Plan } from '../utils/plan'
-import { completado, progreso, totalAhorrado, totalGenerado, totalObjetivo } from '../utils/plan'
+import { aporteMensualTotal, completado, progreso, totalAhorrado, ultimoAporte } from '../utils/plan'
 import { CLIENTE } from '../data/demo'
 import { pesosCorto, porcentaje } from '../utils/formato'
 import BarraApp from '../components/layout/BarraApp'
@@ -22,8 +22,8 @@ export interface PerfilProps {
  */
 function Perfil({ planes, onAbrirPlan, onNuevaMeta }: PerfilProps) {
   const total = totalAhorrado(planes)
-  const objetivo = totalObjetivo(planes)
-  const generado = totalGenerado(planes)
+  const mensual = aporteMensualTotal(planes)
+  const ultimo = ultimoAporte(planes)
 
   /** Activos del grupo enganchados por los planes vigentes, sin repetir. */
   const enlazados = new Set<ProductoId>(['afi'])
@@ -57,11 +57,8 @@ function Perfil({ planes, onAbrirPlan, onNuevaMeta }: PerfilProps) {
         <Tarjeta>
           <div className="grid grid-cols-3 gap-3">
             <Dato etiqueta="Ahorrado" valor={pesosCorto(total)} tono="popular" />
-            <Dato etiqueta="Generado" valor={pesosCorto(generado)} tono="crece" />
-            <Dato
-              etiqueta="Avance total"
-              valor={porcentaje(objetivo > 0 ? total / objetivo : 0)}
-            />
+            <Dato etiqueta="Al mes" valor={pesosCorto(mensual)} tono="crece" />
+            <Dato etiqueta="Último" valor={ultimo ? pesosCorto(ultimo.monto) : '—'} />
           </div>
         </Tarjeta>
 
@@ -114,20 +111,23 @@ function Perfil({ planes, onAbrirPlan, onNuevaMeta }: PerfilProps) {
           </div>
         </Tarjeta>
 
-        <Tarjeta
-          titulo="Conectado a"
-        >
-          <ul className="flex flex-wrap gap-2">
+        <Tarjeta titulo="Conectado a">
+          <ul className="divide-y divide-slate-100 dark:divide-slate-700/60">
             {[...enlazados].map((id) => (
               <li
                 key={id}
-                className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-2.5 py-2 dark:border-slate-700"
+                className="flex items-center gap-3 py-3"
               >
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-200">
-                  <Icono nombre={PRODUCTOS[id].icono} tam={15} grosor={1.8} />
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-200">
+                  <Icono nombre={PRODUCTOS[id].icono} tam={17} grosor={1.8} />
                 </span>
-                <span className="text-[12px] font-semibold text-slate-800 dark:text-slate-100">
-                  {PRODUCTOS[id].nombre}
+                <span className="min-w-0">
+                  <span className="block text-[12.5px] font-semibold text-slate-800 dark:text-slate-100">
+                    {PRODUCTOS[id].nombre}
+                  </span>
+                  <span className="mt-0.5 block text-[11px] leading-snug text-slate-500 dark:text-slate-400">
+                    {PRODUCTOS[id].rol}
+                  </span>
                 </span>
               </li>
             ))}

@@ -154,17 +154,17 @@ export const RECORRIDO: PasoRecorrido[] = [
   {
     titulo: 'La Ruta Inteligente',
     resumen: 'El objetivo partido en 25%, 60% y 100%.',
-    accion: { tipo: 'abrirPlan', planId: 'plan-vivienda' },
+    accion: { tipo: 'abrirPlan', planId: 'plan-taller' },
   },
   {
     titulo: 'El dinero no se queda quieto',
     resumen: 'Lo que puso el cliente y lo que puso su dinero.',
-    accion: { tipo: 'abrirPlan', planId: 'plan-vivienda', ancla: 'crecimiento' },
+    accion: { tipo: 'abrirPlan', planId: 'plan-taller', ancla: 'crecimiento' },
   },
   {
     titulo: 'Hito alcanzado',
     resumen: 'Se avanza el tiempo hasta cruzar el siguiente hito.',
-    accion: { tipo: 'avanzarHastaHito', planId: 'plan-vivienda' },
+    accion: { tipo: 'avanzarHastaHito', planId: 'plan-taller' },
   },
   {
     titulo: 'Meta completada y alianzas',

@@ -9,12 +9,13 @@ import {
 import type { EntradaPlan } from '../utils/plan'
 
 /**
- * Estado inicial del prototipo. Son tres planes en momentos distintos del
- * recorrido para que la demo muestre la ruta completa sin esperar:
+ * Estado inicial del prototipo. El cliente ahorra RD$6,000 al mes entre dos
+ * planes activos; la pasola ya aparece como logro. La demo sigue mostrando
+ * ruta, hito y meta completada sin inventar una capacidad de ahorro irreal.
  *
- *  · Vivienda   — pasado el primer hito, camino al 60%.
- *  · Educación  — a un paso del 100%: un aporte y se celebra la meta.
- *  · Negocio    — recién arrancado, antes del primer hito.
+ *  · Educación — cerca del 100%, para demostrar el puente al completarla.
+ *  · Taller    — recién pasado el primer hito.
+ *  · Pasola    — una compra personal ya lograda.
  */
 
 export const CLIENTE = {
@@ -32,41 +33,41 @@ interface Semilla extends Omit<EntradaPlan, 'mesInicio'> {
 
 const SEMILLAS: Semilla[] = [
   {
-    id: 'plan-vivienda',
-    proposito: 'vivienda',
-    nombre: 'Inicial del apartamento',
-    objetivo: 1_500_000,
-    plazoMeses: 60,
-    aporteMensual: 22_000,
-    aporteInicial: 150_000,
-    canal: 'cuenta',
-    beneficiario: 'pareja',
-    antiguedad: 18,
-  },
-  {
     id: 'plan-educacion',
     proposito: 'educacion',
-    nombre: 'Universidad de Camila',
-    objetivo: 600_000,
+    nombre: 'Inscripción de Camila',
+    objetivo: 150_000,
     plazoMeses: 48,
-    aporteMensual: 12_000,
+    aporteMensual: 3_000,
     // Aportado desde el exterior: el mismo cliente, otro canal de entrada.
-    aporteInicial: 60_000,
+    aporteInicial: 15_000,
     canal: 'yava',
     beneficiario: 'hijo',
-    antiguedad: 36,
+    antiguedad: 39,
   },
   {
-    id: 'plan-negocio',
+    id: 'plan-taller',
     proposito: 'negocio',
-    nombre: 'Capital del taller',
-    objetivo: 900_000,
-    plazoMeses: 42,
-    aporteMensual: 15_000,
-    aporteInicial: 50_000,
+    nombre: 'Inicial del taller',
+    objetivo: 80_000,
+    plazoMeses: 27,
+    aporteMensual: 3_000,
+    aporteInicial: 5_000,
     canal: 'toke',
     beneficiario: 'socios',
     antiguedad: 6,
+  },
+  {
+    id: 'plan-pasola',
+    proposito: 'vehiculo',
+    nombre: 'Mi pasola',
+    objetivo: 60_000,
+    plazoMeses: 18,
+    aporteMensual: 3_000,
+    aporteInicial: 6_000,
+    canal: 'cuenta',
+    beneficiario: 'yo',
+    antiguedad: 18,
   },
 ]
 

@@ -38,7 +38,7 @@ function Invertir({ onNuevaMeta }: InvertirProps) {
             <span className="mt-2.5 block text-[13px] font-bold text-slate-900 dark:text-slate-100">
               Con ruta
             </span>
-            <span className="mt-0.5 block text-[11px] leading-snug text-slate-600 dark:text-slate-400">Con meta y hitos.</span>
+            <span className="mt-0.5 block text-[11px] leading-snug text-slate-600 dark:text-slate-400">Meta e hitos.</span>
           </button>
 
           <div className="rounded-2xl border border-slate-200 bg-white p-3.5 dark:border-slate-700 dark:bg-slate-800/60">
@@ -46,7 +46,7 @@ function Invertir({ onNuevaMeta }: InvertirProps) {
               <Icono nombre="bolsa" tam={17} grosor={2} />
             </span>
             <span className="mt-2.5 block text-[13px] font-bold text-slate-900 dark:text-slate-100">
-              Por mi cuenta
+              Autogestionada
             </span>
             <span className="mt-0.5 block text-[11px] leading-snug text-slate-600 dark:text-slate-400">Tú eliges el instrumento.</span>
           </div>
